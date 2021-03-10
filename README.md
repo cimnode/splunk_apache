@@ -5,8 +5,14 @@ This document outlines the process for properly installing and configuring Apach
 1. Download Splunk TA and install where needed.
     1. Download Splunkbase app: https://splunkbase.splunk.com/app/3186/
     1. Follow installation instructions: https://docs.splunk.com/Documentation/AddOns/released/ApacheWebServer/Install
-1. Create app to collection logs from Apache Web Servers.
+1. Install app to collection logs from Apache Web Servers. (example deployment app in repository)
+    1. Download default web app.
+    1. Configure as needed for environment
+    1. Upload to deployment server, configure server class, and deploy app.
 1. Configure Apache
+    1. Download apache configuration file
+    1. Copy config file
+    1. Configure logging to use Splunk log format
 1. Validate
 
 Notes:
