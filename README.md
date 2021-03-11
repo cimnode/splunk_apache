@@ -22,3 +22,16 @@ Can use syslog forwarding, such as from syslog-ng and json format to forward to 
 
 Custom logging, available variables.
 http://httpd.apache.org/docs/current/mod/mod_log_config.html
+
+Using an Apache reverse proxy.
+On the Apache proxy server, use the command "a2enconf remoteip". The Apache server will then start passing the remote IP to the server serving HTTP content.
+The server must now handle that. "a2enconf remoteip"
+To each apache host file, add
+	RemoteIPHeader X-Forwarded-For
+	RemoteIPInternalProxy 192.168.237.2
+Finally, in the log configuration file, the splunk_json or splunk_kv log format must use the %a in place %h.
+
+/etc/apache2/conf-enabled/splunk_log.conf 
+LogFormat "{\"time\":\"%{%s}t.%{usec_frac}t\", \"bytes_in\":\"%I\", \"bytes_out\":\"%O\", \"cookie\":\"%{Cookie}i\", \"server\":\"%v\", \"dest_port\":\"%p\", \"http_content_type\":\"%{Content-type}i\", \"http_method\":\"%m\", \"http_referrer\":\"%{Referer}i\", \"http_user_agent\":\"%{User-agent}i\", \"ident\":\"%l\", \"response_time_microseconds\":\"%D\", \"client\":\"%a\", \"status\":\"%>s\", \"uri_path\":\"%U\", \"uri_query\":\"%q\", \"user\":\"%u\"}" splunk_json
+
+LogFormat "time=%{%s}t.%{usec_frac}t, bytes_in=%I, bytes_out=%O, cookie=\"%{Cookie}i\", server=%v, dest_port=%p, http_content_type=\"%{Content-type}i\", http_method=\"%m\", http_referrer=\"%{Referer}i\", http_user_agent=\"%{User-agent}i\", ident=\"%l\", response_time_microseconds=%D, client=%a, status=%>s, uri_path=\"%U\", uri_query=\"%q\", user=\"%u\"" splunk_kv
