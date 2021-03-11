@@ -19,3 +19,6 @@ Why this matters here.
 
 Notes:
 Can use syslog forwarding, such as from syslog-ng and json format to forward to HEC.
+
+Custom logging, available variables.
+http://httpd.apache.org/docs/current/mod/mod_log_config.html
