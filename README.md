@@ -11,7 +11,8 @@ Why this matters here.
     1. Download default web app.
     1. Configure as needed for environment
     2. 
-`[monitor:///var/log/apache2/*error.log*]
+```
+[monitor:///var/log/apache2/*error.log*]
 disabled = 0
 blacklist = \.gz$
 sourcetype = apache:error
@@ -21,7 +22,7 @@ disabled = 0
 #sourcetype = access_common
 sourcetype = apache:access
 blacklist = \.gz$
-`
+```
     3. Upload to deployment server, configure server class, and deploy app.
 1. Configure Apache
     1. Download apache configuration file
