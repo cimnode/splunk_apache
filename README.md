@@ -34,13 +34,13 @@ http://httpd.apache.org/docs/current/mod/mod_log_config.html
 **Using an Apache reverse proxy.**
 1. On the Apache proxy server and Apache instance serving content, use the command `a2enconf remoteip`. The Apache server will then start passing the remote IP to the server serving HTTP content.
 1. To each apache host file, add to the VirtualHost stanza:
-'''
+```
 	RemoteIPHeader X-Forwarded-For
 	RemoteIPInternalProxy 192.168.237.2
-'''
+```
 1. In the log configuration file (/etc/apache2/conf-enabled/splunk_log.conf), the splunk_json or splunk_kv log format must use the %a in place %h. See below.
-'''
+```
 LogFormat "{\"time\":\"%{%s}t.%{usec_frac}t\", \"bytes_in\":\"%I\", \"bytes_out\":\"%O\", \"cookie\":\"%{Cookie}i\", \"server\":\"%v\", \"dest_port\":\"%p\", \"http_content_type\":\"%{Content-type}i\", \"http_method\":\"%m\", \"http_referrer\":\"%{Referer}i\", \"http_user_agent\":\"%{User-agent}i\", \"ident\":\"%l\", \"response_time_microseconds\":\"%D\", \"client\":\"%a\", \"status\":\"%>s\", \"uri_path\":\"%U\", \"uri_query\":\"%q\", \"user\":\"%u\"}" splunk_json
 
 LogFormat "time=%{%s}t.%{usec_frac}t, bytes_in=%I, bytes_out=%O, cookie=\"%{Cookie}i\", server=%v, dest_port=%p, http_content_type=\"%{Content-type}i\", http_method=\"%m\", http_referrer=\"%{Referer}i\", http_user_agent=\"%{User-agent}i\", ident=\"%l\", response_time_microseconds=%D, client=%a, status=%>s, uri_path=\"%U\", uri_query=\"%q\", user=\"%u\"" splunk_kv
-'''
+```
