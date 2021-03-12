@@ -23,8 +23,10 @@ blacklist = \.gz$
 1. Configure Apache
     1. Download apache configuration file splunk_log.conf file from this repository and copy to /etc/apache2/conf-available on Apache server.
     1. Use `a2enconf splunk_log` to enable configuration
-    1. Configure logging to use Splunk log format
-1. Validate
+    1. Configure logging to use Splunk log format editing the configuration file for the Apache server located in /etc/apache2/sites-enabled. Alter the logging line to  `   CustomLog ${APACHE_LOG_DIR}/access.log splunk_json`. Note that the filename can be changed, but should match the monitor statement above.
+    1. Restart apache
+
+Optional: The CIM Web data model can be accelerated, but should only be done if apps will use this data.
 
 Notes:
 Can use syslog forwarding, such as from syslog-ng and json format to forward to HEC.
