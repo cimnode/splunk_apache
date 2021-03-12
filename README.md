@@ -21,8 +21,8 @@ sourcetype = apache:access
 blacklist = \.gz$
 ```
 1. Configure Apache
-    1. Download apache configuration file
-    1. Copy config file
+    1. Download apache configuration file splunk_log.conf file from this repository and copy to /etc/apache2/conf-available on Apache server.
+    1. Use `a2enconf splunk_log` to enable configuration
     1. Configure logging to use Splunk log format
 1. Validate
 
