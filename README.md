@@ -7,10 +7,22 @@ Why this matters here.
 1. Download Splunk TA and install where needed.
     1. Download Splunkbase app: https://splunkbase.splunk.com/app/3186/
     1. Follow installation instructions: https://docs.splunk.com/Documentation/AddOns/released/ApacheWebServer/Install
-1. Install app to collection logs from Apache Web Servers. (example deployment app in repository)
+1. Configure app to collection logs from Apache Web Servers. (example deployment app in repository)
     1. Download default web app.
     1. Configure as needed for environment
-    1. Upload to deployment server, configure server class, and deploy app.
+    2. 
+`[monitor:///var/log/apache2/*error.log*]
+disabled = 0
+blacklist = \.gz$
+sourcetype = apache:error
+
+[monitor:///var/log/apache2/*access.log*]
+disabled = 0
+#sourcetype = access_common
+sourcetype = apache:access
+blacklist = \.gz$
+`
+    3. Upload to deployment server, configure server class, and deploy app.
 1. Configure Apache
     1. Download apache configuration file
     1. Copy config file
