@@ -20,7 +20,7 @@ disabled = 0
 sourcetype = apache:access
 blacklist = \.gz$
 ```
-1. Configure Apache
+3. Configure Apache
     1. Download apache configuration file splunk_log.conf file from this repository and copy to /etc/apache2/conf-available on Apache server.
     1. Use `a2enconf splunk_log` to enable configuration
     1. Configure logging to use Splunk log format editing the configuration file for the Apache server located in /etc/apache2/sites-enabled. Alter the logging line to  `   CustomLog ${APACHE_LOG_DIR}/access.log splunk_json`. Note that the filename can be changed, but should match the monitor statement above.
@@ -28,21 +28,19 @@ blacklist = \.gz$
 
 Optional: The CIM Web data model can be accelerated, but should only be done if apps will use this data.
 
-Notes:
-Can use syslog forwarding, such as from syslog-ng and json format to forward to HEC.
-
-Custom logging, available variables.
+Custom logging Apache documentation shows available variables.
 http://httpd.apache.org/docs/current/mod/mod_log_config.html
 
-Using an Apache reverse proxy.
-On the Apache proxy server, use the command "a2enconf remoteip". The Apache server will then start passing the remote IP to the server serving HTTP content.
-The server must now handle that. "a2enconf remoteip"
-To each apache host file, add
+**Using an Apache reverse proxy.**
+1. On the Apache proxy server and Apache instance serving content, use the command `a2enconf remoteip`. The Apache server will then start passing the remote IP to the server serving HTTP content.
+1. To each apache host file, add to the VirtualHost stanza:
+'''
 	RemoteIPHeader X-Forwarded-For
 	RemoteIPInternalProxy 192.168.237.2
-Finally, in the log configuration file, the splunk_json or splunk_kv log format must use the %a in place %h.
-
-/etc/apache2/conf-enabled/splunk_log.conf 
+'''
+1. In the log configuration file (/etc/apache2/conf-enabled/splunk_log.conf), the splunk_json or splunk_kv log format must use the %a in place %h. See below.
+'''
 LogFormat "{\"time\":\"%{%s}t.%{usec_frac}t\", \"bytes_in\":\"%I\", \"bytes_out\":\"%O\", \"cookie\":\"%{Cookie}i\", \"server\":\"%v\", \"dest_port\":\"%p\", \"http_content_type\":\"%{Content-type}i\", \"http_method\":\"%m\", \"http_referrer\":\"%{Referer}i\", \"http_user_agent\":\"%{User-agent}i\", \"ident\":\"%l\", \"response_time_microseconds\":\"%D\", \"client\":\"%a\", \"status\":\"%>s\", \"uri_path\":\"%U\", \"uri_query\":\"%q\", \"user\":\"%u\"}" splunk_json
 
 LogFormat "time=%{%s}t.%{usec_frac}t, bytes_in=%I, bytes_out=%O, cookie=\"%{Cookie}i\", server=%v, dest_port=%p, http_content_type=\"%{Content-type}i\", http_method=\"%m\", http_referrer=\"%{Referer}i\", http_user_agent=\"%{User-agent}i\", ident=\"%l\", response_time_microseconds=%D, client=%a, status=%>s, uri_path=\"%U\", uri_query=\"%q\", user=\"%u\"" splunk_kv
+'''
