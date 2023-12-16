@@ -32,7 +32,7 @@ Custom logging Apache documentation shows available variables.
 http://httpd.apache.org/docs/current/mod/mod_log_config.html
 
 **Using an Apache reverse proxy.**
-1. On the Apache proxy server and Apache instance serving content, use the command `a2enconf remoteip`. The Apache server will then start passing the remote IP to the server serving HTTP content.
+1. On the Apache proxy server and Apache instance serving content, use the command `a2enmod remoteip`. The Apache server will then start passing the remote IP to the server serving HTTP content.
 1. To each apache host file, add to the VirtualHost stanza:
 ```
 	RemoteIPHeader X-Forwarded-For
